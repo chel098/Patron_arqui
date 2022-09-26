@@ -1,0 +1,1238 @@
+---
+openapi: 3.0.0
+info:
+  title: Simple Inventory API
+  description: This is a simple API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/joseph97cm/Cine/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /administrators:
+    post:
+      tags:
+      - Administrators
+      summary: Agregar los datos para un nuevo administrador
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/administradorPost'
+        required: true
+      responses:
+        "200":
+          description: Se ingreso el administrador de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/administradorResultado'
+        "400":
+          description: BAD REQUEST
+        "410":
+          description: DATA HAS BEEN DELETED
+        "500":
+          description: SERVER ERROR
+    
+
+  /administrators/pagina/{pagina}:
+    get:
+      tags:
+        - Administrators
+      summary: Mostrar los administradores registrados en el sistema
+      description: Devolver el resultado de los administradores (nombre - apellido - fecha_nacimiento - usuario - password - status)
+      parameters:
+        - name: pagina
+          in: path
+          description: pagina de la muestra
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/administrador'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/administrador'
+        "400":
+          description: BAD REQUEST
+
+        "404":
+          description: NOT FOUND
+
+        "410":
+          description: DATA HAS BEEN DELETED
+
+        "500":
+          description: INTERNAL SERVER ERROR
+  /administrators/delete/{idAdministrador}:
+    put:
+      tags:
+        - Administrators
+      summary: Eliminación logica
+      parameters:
+        - name: idAdministrador
+          in: path
+          description: ID del administrador
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Eliminación con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/administradorActualizado'
+        "400":
+          description: BAD REQUEST
+        "404":
+          description: NOT FOUND
+        "500":
+          description: SERVER ERROR
+  /administrators/{idAdministrador}:
+    delete:
+      tags:
+      - Administrators
+      summary: Eliminación logica de administradores
+      parameters:
+      - name: idAdministrador
+        in: path
+        description: ID del administrador
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+           description: Eliminación exitosa
+          
+        "400":
+          description: BAD REQUEST
+          
+        "404":
+          description: NOT FOUND
+          
+        "500":
+          description: INTERNAL SERVER ERROR
+    put:
+      tags:
+      - Administrators
+      summary: Actualización de datos de un administrador
+      parameters:
+      - name: idAdministrador
+        in: path
+        description: ID del administrador
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/administradorPut'
+        required: true
+      responses:
+        "200":
+          description: Se actualizo el administrador de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/administradorActualizado'
+        "400":
+          description: BAD REQUEST   
+        "404":
+          description: NOT FOUND
+        "500":
+          description: SERVER ERROR
+    get:
+      tags:
+      - Administrators
+      summary: Busqueda de administradores por id
+      parameters:
+      - name: idAdministrador
+        in: path
+        description: ID del administrador
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Resultado de la busqueda por id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/administrador'
+        "400":
+          description: BAD REQUEST 
+        "404":
+          description: NOT FOUND  
+        "500":
+          description: SERVER ERROR
+  /peliculas:
+    get:
+      tags:
+        - peliculas
+      summary: Mostrar peliculas
+      description: Retorna los datos de la orden( peliculasid - name - image - lenguage - adaptation - gender - duration - definition)
+      operationId: getpeliculasById
+
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/peliculas'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+  /peliculas/{nombre}:
+    get:
+      tags:
+        - busqueda
+      summary: Mostrar la pelicula buscada
+      description: Retorna los datos de la orden( id - name - image - lenguage - adaptation - gender - duration - definition)
+      operationId: getbusquedaById
+      parameters:
+        - name: nombre
+          in: path
+          description: nombre de la pelicula
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/busqueda'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+  /peliculas/{peliculasId}/horario/{horarioId}:
+    get:
+      tags:
+        - horario
+      summary: Mostrar horarios de peliculas
+      description: Retorna los datos de la orden( idPelicula - name - image - city - cinema - schedule)
+      operationId: getpeliculaById
+      parameters:
+        - name: peliculasId
+          in: path
+          description: ID de la pelicula
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: horarioId
+          in: path
+          description: ID del horario
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: SUCCESSFUL OPERATION
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/horario'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+  /peliculas/{peliculasId}/horario/{horarioId}&state=true:
+    get:
+      tags:
+        - horario
+      summary: Mostrar asientos disponibles de acuerdo al horario seleccionado
+      description: Retorna los datos de la orden(idPelicula - idHorario - seats)
+      operationId: getpelisById
+      parameters:
+        - name: peliculasId
+          in: path
+          description: ID de la pelicula
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: horarioId
+          in: path
+          description: ID del horario
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: SUCCESSFUL OPERATION
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/asientos'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /compraTicket:
+    post:
+      tags:
+        - compraTicket
+      summary: Añadir informacion para la compra de tickets
+      description: Permite brindar la informacion requerida para la compra de tickets
+      parameters:
+        - name: compraTicketsItem
+          in: query
+          schema:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Fecha para ver la funcion
+                example: 05/19/2022
+              seats:
+                type: array
+                items:
+                  type: object
+                  description: Asientos disponibles
+                  example:
+                    [ A-2, A-3 ]
+              compra_ticket_compraticketid:
+                type: integer
+                description: id tabla
+                example: 1
+      responses:
+        200:
+          description: SUCCESSFUL OPERATION
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/envio'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+  /datosPago/{datosPagoId}:
+    get:
+      tags:
+        - datosPagoPeliculas
+      summary: Mostrar informacion necesaria para seguir con la compra del ticket
+      description: Retorna los datos de la orden( id - idcompraTicket - idPelicula - name - image - city - date and time - tickets - seats - total)
+      operationId: getdatosPagoById
+      parameters:
+        - name: datosPagoId
+          in: path
+          description: ID datosPago
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: SUCCESSFUL OPERATION
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/datosPagoGet'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /datosPago:
+    post:
+      tags:
+        - datosPagoPeliculas
+      summary: Añadir datos de pago
+      description: Permite ingresar lla informacion requerida para pagar los ticketes
+      parameters:
+        - name: datodPagoItem
+          in: query
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: id de la pelicula
+                example: 54562
+              payment:
+                type: string
+                description: Metodo de pago
+                example: Visa
+              cart:
+                type: integer
+                description: numero de la tarjeta
+                example: 12345678
+              lastDigits:
+                type: integer
+                description: Ingresar los 3 digitos detras de la tarjeta
+                example: 123
+              expirationDate:
+                type: string
+                description: Nombre para la factura
+                example: 05/2028
+              name:
+                type: string
+                description: Nombre para la factura
+                example: Colbert
+              nit:
+                type: integer
+                description: nit para la factura
+                example: 2614120
+              compra_ticket_compraticketid:
+                type: integer
+                description: id tabla
+                example: 1
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/datosPagoPost'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /producto/{productoId}:
+    get:
+      tags:
+      - producto
+      summary: Mostrar productos por id
+      description: Retorna los datos de la orden( id - name - image - precio)
+      operationId: getproductoById
+      parameters:
+      - name: productoId
+        in: path
+        description: ID del producto
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/producto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/producto'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "404":
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "500":
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /compraProducto/{compraProductoId}:
+    get:
+      tags:
+      - compraProducto
+      summary: Mostrar producto por id para su respectiva compra
+      description: Retorna los datos de la orden( id - idProducto - name - image - precio)
+      operationId: getcompraProductoById
+      parameters:
+      - name: compraProductoId
+        in: path
+        description: ID del producto
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: SUCCESSFUL OPERATION
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/compraProducto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/compraProducto'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "404":
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "500":
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /compraProducto:
+    post:
+      tags:
+      - compraProducto
+      summary: Añadir informacion para la compra del producto
+      description: Permite brindar la informacion requerida para la compra de productos
+      parameters:
+      - name: compraProductoItem
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/compraProductoItem'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/compraProducto'
+        "404":
+          description: No existen donaciones en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "405":
+          description: Entrada de datos invalida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /datosPagoProducto/{datosPagoId}:
+    get:
+      tags:
+      - datosPago
+      summary: Mostrar informacion de necesaria para seguir con la compra del producto
+      description: Retorna los datos de la orden( id - idcompraProducto - idProducto - name - image - total)
+      operationId: getdatosPagoProductoById
+      parameters:
+      - name: datosPagoId
+        in: path
+        description: ID datosPago
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: SUCCESSFUL OPERATION
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/datosPagoP'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/datosPagoP'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "404":
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "500":
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /datosPagoP:
+    post:
+      tags:
+      - datosPago
+      summary: Añadir datos de pago
+      description: Permite ingresar la informacion requerida para pagar los productos
+      parameters:
+      - name: datodPagoItem
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/datosPagoItemP'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/datosPagoP'
+        "404":
+          description: No existen donaciones en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "405":
+          description: Entrada de datos invalida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+  
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int64
+        errorMessage:
+          type: string
+          description: Mensaje del error
+        errorDescription:
+          type: string
+          description: La descripcion en detalle del error
+    peliculas:
+      type: object
+      properties:
+        peliculasId:
+          type: integer
+          description: Peliculas Id
+          example: 2
+        name:
+          type: string
+          description: Nombre de la pelicula
+          example: Doctor Strange en el Multiverso de la Locura
+        image:
+          type: string
+          description: Imagen de la pelicula
+          example: https://es.web.img3.acsta.net/c_310_420/pictures/22/04/07/11/43/1839314.jpg
+        language:
+          type: string
+          description: Idioma de la pelicula
+          example: Español
+        adaptation:
+          type: string
+          description: Apto para un tipo de publico
+          example: Todo Publico
+        gender:
+          type: string
+          description: Genero de la pelicula
+          example: Accion
+        duration:
+          type: string
+          description: Tiempo de duracion de la pelicula
+          example: 140 min
+        definition:
+          type: string
+          description: Definicion de la pelicula
+          example: 2D
+    busqueda:
+      type: object
+      properties:
+        peliculasid:
+          type: integer
+          description: Peliculas Id
+          example: 2
+        name:
+          type: string
+          description: Nombre de la pelicula
+          example: Doctor Strange en el Multiverso de la Locura
+    horario:
+      type: object
+      properties:
+        peliculasId:
+          type: integer
+          description: Peliculas Id
+          example: 1
+        horarioId:
+          type: integer
+          description: Peliculas Id
+          example: 1
+        name:
+          type: string
+          description: Nombre de la pelicula
+          example: Doctor Strange en el Multiverso de la Locura
+        image:
+          type: string
+          description: Imagen de la pelicula
+          example: https://es.web.img3.acsta.net/c_310_420/pictures/22/04/07/11/43/1839314.jpg
+        schedule:
+          type: array
+          items:
+            type: object
+            description: Horarios disponibles
+            example:
+              [ "12:30", "14:05", "16:00", "20:00" ]
+    asientos:
+      type: object
+      properties:
+        peliculasId:
+          type: integer
+          description: Peliculas Id
+          example: 2
+        idHorario:
+          type: integer
+          description: Horario Id
+          example: 2
+        seats:
+          type: array
+          items:
+            type: object
+            description: Asientos disponibles
+            example:
+              [ A-1, A-2, A-3, A-4, G-16, G-17, I-8, I-11, P-20,R-4, R-5, R-13 ]
+    envio:
+      type: object
+      properties:
+        peliculasId:
+          type: integer
+          description: id de la pelicula
+          example: 2
+        horarioId:
+          type: integer
+          description: id de la pelicula
+          example: 2
+        date:
+          type: string
+          description: Fecha para ver la funcion
+          example: 05/19/2022
+        compra_ticket_compraticketid:
+          type: integer
+          description: id tabla
+          example: 1
+        seats:
+          type: array
+          items:
+            type: object
+            description: Asientos disponibles
+            example:
+              [ A-2, A-3 ]
+
+    datosPagoGet:
+      type: object
+      properties:
+        datosPagoId:
+          type: integer
+          description: Datos de pago Id
+          example: 424
+        peliculasId:
+          type: integer
+          description: Peliculas Id
+          example: 2
+        horarioId:
+          type: integer
+          description: Horario Id
+          example: 2
+        name:
+          type: string
+          description: Nombre de la pelicula
+          example: Doctor Strange en el Multiverso de la Locura
+        image:
+          type: string
+          description: Imagen de la pelicula
+          example: https://es.web.img3.acsta.net/c_310_420/pictures/22/04/07/11/43/1839314.jpg
+        datetime:
+          type: string
+          description: Fecha y hora de la funcion
+          example: 05/19/2022 - 14:05
+        tickets:
+          type: string
+          description: Cantidad de tickets y precio del ticket
+          example: 2 Entradas - Bs 40
+        seats:
+          type: array
+          items:
+            type: object
+            description: Asientos disponibles
+            example: [ A-2, A-3 ]
+        total:
+          type: string
+          description: Total de la compra
+          example: 80
+    datosPagoPost:
+      type: object
+      properties:
+        datosPagoid:
+          type: integer
+          description: id de la pelicula
+          example: 54562
+        payment:
+          type: string
+          description: Metodo de pago
+          example: Visa
+        cart:
+          type: integer
+          description: Numero de la tarjeta
+          example: 12345678
+        lastDigits:
+          type: integer
+          description: Ingresar los 3 digitos detras de la tarjeta
+          example: 123
+        name:
+          type: string
+          description: Nombre para la factura
+          example: Colbert
+        nit:
+          type: integer
+          description: nit para la factura
+          example: 2614120
+        compra_ticket_compraticketid:
+          type: integer
+          description: id tabla
+          example: 1
+    compraTicketsItem:
+      type: object
+      properties:
+        idPelicula:
+          type: integer
+          description: id de la pelicula
+          example: 2
+        idHorario:
+          type: integer
+          description: id de la pelicula
+          example: 2
+        date:
+          type: string
+          description: Fecha para ver la funcion
+          example: 05/19/2022
+        seats:
+          type: array
+          items:
+            type: object
+            description: Asientos disponibles
+            example:
+              - A-2 A-3
+    datodPagoItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id de la pelicula
+          example: 54562
+        payment:
+          type: string
+          description: Metodo de pago
+          example: Visa
+        card:
+          type: integer
+          description: numero de la tarjeta
+          example: 12345678
+        lastDigits:
+          type: integer
+          description: Ingresar los 3 digitos detras de la tarjeta
+          example: 123
+        name:
+          type: string
+          description: Nombre para la factura
+          example: Colbert
+        nit:
+          type: integer
+          description: nit para la factura
+          example: 2614120
+    producto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Producto Id
+          example: 2
+        image:
+          type: string
+          description: Imagen del producto
+          example: https://es.web.img3.acsta.net/c_310_420/pictures/22/04/07/11/43/1839314.jpg
+        name:
+          type: string
+          description: Nombre del producto
+          example: Pipocas
+        precio:
+          type: number
+          description: Precio del producto
+          example: 10.00
+        
+    compraProducto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Producto Id
+          example: 7
+        idProducto:
+          type: integer
+          description: Producto Id
+          example: 2
+        image:
+          type: string
+          description: Imagen del producto
+          example: https://es.web.img3.acsta.net/c_310_420/pictures/22/04/07/11/43/1839314.jpg
+        name:
+          type: string
+          description: Nombre del producto
+          example: Pipocas
+        precio:
+          type: number
+          description: Precio del producto
+          example: 10.00
+        sabor :
+          type: string
+          description: Sabor del producto
+          example: Salada
+        
+    compraProductoItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Producto Id
+          example: 2
+        idProducto:
+          type: integer
+          description: Producto Id
+          example: 1
+        cantidad:
+          type: number
+          description: cantidad que se tendra del producto
+          example: 2
+        sabor:
+          type: string
+          description: sabor que tendra el producto
+          example: coca cola
+    
+    datosPagoP:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Producto Id
+          example: 2
+        name:
+          type: string
+          description: Nombre del producto
+          example: Pipocas
+        image:
+          type: string
+          description: Imagen del producto
+          example: https://es.web.img3.acsta.net/c_310_420/pictures/22/04/07/11/43/1839314.jpg
+        precio:
+          type: number
+          description: precio del producto
+          example: 10.00
+    datosPagoItemP:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id del producto
+          example: 54562
+        payment:
+          type: string
+          description: Metodo de pago
+          example: Visa
+        card:
+          type: integer
+          description: Numero de la tarjeta
+          example: 09293804928298
+        lastDigits:
+          type: integer
+          description: Ingresar los 3 digitos detras de la tarjeta
+          example: 298
+        name:
+          type: string
+          description: Nombre para la factura
+          example: Ugarte
+        nit:
+          type: integer
+          description: nit para la factura
+          example: 83468734
+    administrador:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id del administrador
+          example: 2
+        nombre:
+          type: string
+          description: Nombre Administrador
+          example: Juan Marco
+        apellido:
+          type: string
+          description: Apellido Administrador
+          example: Guzman Pozo
+        fecha_nacimiento:
+          type: string
+          description: Fecha de nacimiento
+          example: 20/11/1990
+        usuario:
+          type: string
+          description: Nombre de usuario
+          example: Marco20
+        status:
+          type: integer
+          description: Estado del administrador
+          example: 1
+    administradorPost:
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: Nombre Administrador
+        apellido:
+          type: string
+          description: Apellido Administrador
+        fecha_nacimiento:
+          type: string
+          description: Fecha de nacimiento
+        usuario:
+          type: string
+          description: Nombre de usuario
+        contraseña:
+          type: string
+          description: Contraseña del usuario
+        status: 
+          type: integer
+          description: Estado del administrador(0 inactivo, 1 activo)
+    administradorExam:
+      type: object
+      properties:
+        usuario:
+          type: string
+          description: Usuario
+          example: Ruben
+        contraseña:
+          type: string
+          description: Contraseña
+          example: 12345
+    administradorResultado:
+      type: object
+      properties:
+        id: 
+          type: integer
+          description: id del administrador
+          example: 1
+        nombre: 
+          type: string
+          description: Nombre del administrador
+          example: Ruben
+        apellido: 
+          type: string
+          description: Apellido del administrador
+          example: Diaz
+        fecha_nacimiento: 
+          type: string
+          description: Fecha de nacimiento del administrador
+          example: 20/11/1980
+        usuario: 
+          type: string
+          description: Usuario de administrador
+          example: rubenpou
+        contraseña:
+          type: string
+          description: Contraseña del administrador
+          example: 12345
+        status:
+          type: integer
+          description: Estado del administrador
+          example: 1
+    administradorPut:
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: Nombre Administrador
+          example: Juan Marco
+        apellido:
+          type: string
+          description: Apellido Administrador
+          example: Guzman Pozo
+        fecha_nacimiento:
+          type: string
+          description: Fecha de nacimiento
+          example: 20/11/1990
+        usuario:
+          type: string
+          description: Nombre de usuario
+          example: Marco20
+        contraseña:
+          type: string
+          description: Contraseña del usuario
+          example: 12345
+    administradorActualizado:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id del administrador
+          example: 2
+        nombre:
+          type: string
+          description: Nombre Administrador
+          example: Juan Marco
+        apellido:
+          type: string
+          description: Apellido Administrador
+          example: Guzman Pozo
+        fecha_nacimiento:
+          type: string
+          description: Fecha de nacimiento
+          example: 20/11/1990
+        usuario:
+          type: string
+          description: Nombre de usuario
+          example: Marco48
+        contraseña:
+          type: string
+          description: Contraseña del usuario
+          example: bocajuniors1
+        status:
+          type: integer
+          description: Estado del administrador
+          example: 1

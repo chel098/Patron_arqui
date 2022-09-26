@@ -1,0 +1,47 @@
+###
+GET http://localhost:8080/peliculas
+Accept: application/json
+
+###
+GET http://localhost:8080/peliculas/Sing
+Accept: application/json
+
+###
+GET http://localhost:8080/peliculas/1/horario/1
+Accept: application/json
+
+###
+GET http://localhost:8080/peliculas/1/horario/1&state=true
+Accept: application/json
+
+###
+POST http://localhost:8080/compraTicket
+Content-Type: application/json
+Accept: application/json
+
+{
+  "date": "05/19/2022",
+  "seats": "A-2, A-3",
+  "peliculas_horarios_id_peliculas_horario": 1
+
+}
+###
+GET http://localhost:8080/datosPago/{{datosPagoId}}
+Accept: application/json
+
+###
+POST http://localhost:8080/datosPago
+Content-Type: application/json
+Accept: application/json
+
+{
+  "payment": "Visa",
+  "card": 12345678,
+  "lastDigist": 123,
+  "expirationDate": "05/2028",
+  "name": "Colbert",
+  "nit": 2614120,
+  "compra_ticket_compraticketid": 1
+
+}
+
